@@ -64,7 +64,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/attendance">
+                            <a class="nav-link" href="/receiving">
                                 <i class="fas fa-list text-danger"></i>
                                 <span class="nav-link-text">Penerimaan Dokumen</span>
                             </a>

@@ -12,27 +12,17 @@ class Sls extends Model
     protected $table = 'sls';
     public $timestamps = false;
 
-    public function villagedetail()
+    public function village()
     {
         return $this->belongsTo(Village::class, 'village_id');
     }
 
-    public function subdistrictdetail()
+    public function subdistrict()
     {
-        return $this->villagedetail->subdistrictdetail();
+        return $this->village->subdistrict();
     }
-    public function fullcode()
-    {
-        return "3513" . $this->long_code;
-    }
-
     public function fullname()
     {
-        return $this->subdistrictdetail->name . ", " . $this->villagedetail->name . ", " . $this->name;
-    }
-
-    public function entriesK()
-    {
-        return $this->hasMany(EntryK::class, 'sls_id');
+        return $this->subdistrict->name . ", " . $this->village->name . ", " . $this->name;
     }
 }

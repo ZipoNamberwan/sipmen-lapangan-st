@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReceivingControlller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,11 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/receiving', [ReceivingControlller::class, 'indexReceiving']);
+    Route::get('/receiving/create', [ReceivingControlller::class, 'createReceiving']);
+    Route::get('/receiving/data', [ReceivingControlller::class, 'getDataReceiving']);
+    Route::post('/receiving', [ReceivingControlller::class, 'storeReceiving']);
+    Route::get('/receiving-success', [ReceivingControlller::class, 'successReceiving']);
+    Route::get('/receiving/village/{id}', [ReceivingControlller::class, 'getVillage']);
+    Route::get('/receiving/sls/{id}', [ReceivingControlller::class, 'getSls']);
+});

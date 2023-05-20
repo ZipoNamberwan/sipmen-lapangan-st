@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('sender')->nullable();
             $table->string('note')->nullable();
             $table->foreignId('sls_id')->constrained('sls')->unique();
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
         Schema::create('box', function (Blueprint $table) {

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Sls;
 use App\Models\Subdistrict;
+use App\Models\User;
 use App\Models\Village;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,18 @@ class MasterSeeder extends Seeder
      */
     public function run()
     {
+        $admin = User::create([
+            'name' => 'Administrator',
+            'email' => 'admin',
+            'password' => bcrypt('123456')
+        ]);
+
+        $indra = User::create([
+            'name' => 'Wahyu Razi Indrawan',
+            'email' => 'wahyu.razi',
+            'password' => bcrypt('123456')
+        ]);
+
         $sukapura = Subdistrict::create(['name' => 'Sukapura', 'code' => '010', 'long_code' => '3513010',]);
         $sumber = Subdistrict::create(['name' => 'Sumber', 'code' => '020', 'long_code' => '3513020',]);
         $kuripan = Subdistrict::create(['name' => 'Kuripan', 'code' => '030', 'long_code' => '3513030',]);
@@ -36,7 +49,7 @@ class MasterSeeder extends Seeder
         $maron = Subdistrict::create(['name' => 'Maron', 'code' => '180', 'long_code' => '3513180',]);
         $gending = Subdistrict::create(['name' => 'Gending', 'code' => '190', 'long_code' => '3513190',]);
         $dringu = Subdistrict::create(['name' => 'Dringu', 'code' => '200', 'long_code' => '3513200',]);
-        $wonomerto = Subdistrict::create(['name' => 'Wonomerto', 'code' => '210', 'long_code' => '3513210',]);
+        $wonomerto = Subdistrict::create(['name' => 'Wonomerto', 'code' => '210', 'long_code' => '3513210', 'user_id' => $indra->id]);
         $lumbang = Subdistrict::create(['name' => 'Lumbang', 'code' => '220', 'long_code' => '3513220',]);
         $tongas = Subdistrict::create(['name' => 'Tongas', 'code' => '230', 'long_code' => '3513230',]);
         $sumberasih = Subdistrict::create(['name' => 'Sumberasih', 'code' => '240', 'long_code' => '3513240',]);

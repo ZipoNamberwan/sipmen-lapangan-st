@@ -12,7 +12,7 @@ class Village extends Model
     protected $table = 'village';
     public $timestamps = false;
 
-    public function subdistrictdetail()
+    public function subdistrict()
     {
         return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
     }
