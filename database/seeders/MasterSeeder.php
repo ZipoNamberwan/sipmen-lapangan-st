@@ -29,6 +29,12 @@ class MasterSeeder extends Seeder
             'password' => bcrypt('123456')
         ]);
 
+        $dicky = User::create([
+            'name' => 'Dicky Dita Firmansyah',
+            'email' => 'ditaf',
+            'password' => bcrypt('123456')
+        ]);
+
         $sukapura = Subdistrict::create(['name' => 'Sukapura', 'code' => '010', 'long_code' => '3513010',]);
         $sumber = Subdistrict::create(['name' => 'Sumber', 'code' => '020', 'long_code' => '3513020',]);
         $kuripan = Subdistrict::create(['name' => 'Kuripan', 'code' => '030', 'long_code' => '3513030',]);
@@ -43,7 +49,7 @@ class MasterSeeder extends Seeder
         $kotaanyar = Subdistrict::create(['name' => 'Kotaanyar', 'code' => '120', 'long_code' => '3513120',]);
         $paiton = Subdistrict::create(['name' => 'Paiton', 'code' => '130', 'long_code' => '3513130',]);
         $besuk = Subdistrict::create(['name' => 'Besuk', 'code' => '140', 'long_code' => '3513140',]);
-        $kraksaan = Subdistrict::create(['name' => 'Kraksaan', 'code' => '150', 'long_code' => '3513150',]);
+        $kraksaan = Subdistrict::create(['name' => 'Kraksaan', 'code' => '150', 'long_code' => '3513150', 'user_id' => $dicky->id]);
         $krejengan = Subdistrict::create(['name' => 'Krejengan', 'code' => '160', 'long_code' => '3513160',]);
         $pajarakan = Subdistrict::create(['name' => 'Pajarakan', 'code' => '170', 'long_code' => '3513170',]);
         $maron = Subdistrict::create(['name' => 'Maron', 'code' => '180', 'long_code' => '3513180',]);

@@ -13,14 +13,39 @@ class ReceivingControlller extends Controller
 {
     public function indexReceiving()
     {
-
         return view('index-receiving');
     }
     public function createReceiving()
     {
         $subdistricts = Auth::user()->subdistricts;
-
         return view('add-receiving', ['subdistricts' => $subdistricts]);
+    }
+    public function editDataReceiving($id)
+    {
+        $receiving = Receiving::find($id);
+        return view('edit-receiving', ['receiving' => $receiving]);
+    }
+    public function updateDataReceiving($id, Request $request)
+    {
+        $receiving = Receiving::find($id);
+        if ($receiving->user->id != Auth::user()->id) {
+            abort(403);
+        }
+        $this->validate($request, [
+            'date' => 'required',
+            'l2' => 'required',
+            'sender' => 'required',
+        ]);
+        $data = ([
+            'date' => $request->date,
+            'l2' => $request->l2,
+            'l1' => $request->has('l1') ? true : false,
+            'map' => $request->has('map') ? true : false,
+            'note' => $request->note,
+            'sender' => $request->sender
+        ]);
+        $receiving->update($data);
+        return redirect('/receiving');
     }
     public function getVillage($id)
     {
@@ -40,6 +65,11 @@ class ReceivingControlller extends Controller
             'l2' => 'required',
             'sender' => 'required',
         ]);
+
+        $idsls = SLS::find($request->sls);
+        if ($idsls->village->subdistrict->user->id != Auth::user()->id) {
+            abort(403);
+        }
 
         Receiving::create([
             'map' => $request->has('map'),
@@ -88,7 +118,7 @@ class ReceivingControlller extends Controller
                 return Str::contains(strtolower($q->sls->subdistrict->name), strtolower($searchkeyword)) ||
                     Str::contains(strtolower($q->sls->village->name), strtolower($searchkeyword)) ||
                     Str::contains(strtolower($q->sls->name), strtolower($searchkeyword)) ||
-                    Str::contains($q->sls->log_code, $searchkeyword) ||
+                    Str::contains($q->sls->long_code, $searchkeyword) ||
                     Str::contains(strtolower($q->sender), strtolower($searchkeyword));
             });
         }
@@ -119,6 +149,12 @@ class ReceivingControlller extends Controller
             $data["sender"] = $s->sender;
             $data["note"] = $s->note;
             $data["id"] = $s->id;
+            $data["subdistrict"] = $s->sls->village->subdistrict->name;
+            $data["subdistrict_code"] = $s->sls->village->subdistrict->code;
+            $data["village"] = $s->sls->village->name;
+            $data["village_code"] = $s->sls->village->code;
+            $data["sls"] = $s->sls->name;
+            $data["sls_code"] = $s->sls->code;
             $slsArray[] = $data;
             $i++;
         }

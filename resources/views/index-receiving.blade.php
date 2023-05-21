@@ -36,6 +36,7 @@
                         <div class="col-md-9">
                             <h3 class="card-title mb-2">Daftar Penerimaan Dokumen</h3>
                             <p class="card-text mb-0"><small>Berikut ini adalah daftar dokumen yang sudah diterima oleh Koseka</small></p>
+                            <p class="card-text mb-0"><small>Gunakan kotak Search untuk melakukan pencarian </small></p>
                         </div>
                         <div class="col-md-3 text-right">
                             <a href="{{url('/receiving/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Absensi">
@@ -49,7 +50,9 @@
                     <table class="table" id="datatable-id" width="100%">
                         <thead class="thead-light">
                             <tr>
-                                <th>Identitas Wilayah</th>
+                                <th>Kecamatan</th>
+                                <th>Desa</th>
+                                <th>SLS</th>
                                 <th>Peta WS</th>
                                 <th>L1</th>
                                 <th>Jumlah L2</th>
@@ -93,17 +96,51 @@
             "url": '/receiving/data',
             "type": 'GET'
         },
-        "columns": [{
-                "responsivePriority": 1,
-                "width": "15%",
-                "data": "sls_name",
-                "orderable": false,
+        "columns": [
+            // {
+            //     "responsivePriority": 1,
+            //     "width": "15%",
+            //     "data": "sls_name",
+            //     "orderable": false,
+            //     "render": function(data, type, row) {
+            //         if (type === 'display') {
+            //             return '<p class="mb-0"><span class="badge badge-primary">' + row.sls_id + '</span></p>' +
+            //                 '<p class="mb-0"><span class="badge badge-success">' + data + '</span></p>';
+            //         }
+            //         return data;
+            //     }
+            // },
+            {
+                "responsivePriority": 2,
+                "width": "5%",
+                "data": "subdistrict_code",
                 "render": function(data, type, row) {
-                    if (type === 'display') {
-                        return '<p class="mb-0"><span class="badge badge-primary">' + row.sls_id + '</span></p>' +
-                            '<p class="mb-0"><span class="badge badge-success">' + data + '</span></p>';
+                    if (type == "display") {
+                        return "[" + data + "] " + row.subdistrict;
                     }
-                    return data;
+                    return data
+                }
+            },
+            {
+                "responsivePriority": 2,
+                "width": "5%",
+                "data": "village_code",
+                "render": function(data, type, row) {
+                    if (type == "display") {
+                        return "[" + data + "] " + row.village;
+                    }
+                    return data
+                }
+            },
+            {
+                "responsivePriority": 2,
+                "width": "15%",
+                "data": "sls_code",
+                "render": function(data, type, row) {
+                    if (type == "display") {
+                        return "[" + data + "] " + row.sls;
+                    }
+                    return data
                 }
             },
             {
@@ -145,6 +182,13 @@
                 "responsivePriority": 2,
                 "width": "10%",
                 "data": "date",
+                "render": function(data, type, row) {
+                    var unixTimestamp = new Date(data).getTime() / 1000 - (new Date).getTimezoneOffset() * 60;
+                    if (type === 'display' || type === 'filter') {
+                        return moment.unix(unixTimestamp).locale('id').format('LL');
+                    }
+                    return unixTimestamp;
+                }
             },
             {
                 "responsivePriority": 2,
@@ -160,6 +204,16 @@
                 "responsivePriority": 2,
                 "width": "15%",
                 "data": "id",
+                "render": function(data, type, row) {
+                    return "<a href=\"/receiving/" + data + "/edit\" class=\"btn btn-info btn-icon btn-sm\" data-toggle=\"tooltip\" data-original-title=\"Tambah SLS\">" +
+                        "<span class=\"btn-inner--icon\"><i class=\"fas fa-edit\"></i></span>" +
+                        // "<span class=\"btn-inner--text\">Selesai</span>" +
+                        "</a>" + "<form class=\"d-inline\" id=\"formdelete" + data + "\" name=\"formdelete" + data + "\" onsubmit=\"deletesls('" + data + "','[" + row.sls_fullcode + "] " + row.sls_fullname + "')\" method=\"POST\" action=\"/entry/" + data + "\">" +
+                        '@method("delete")' +
+                        '@csrf' +
+                        "<button class=\"btn btn-icon btn-outline-danger btn-sm\" type=\"submit\" data-toggle=\"tooltip\" data-original-title=\"Hapus Data\">" +
+                        "<span class=\"btn-inner--icon\"><i class=\"fas fa-trash-alt\"></i></span></button></form>";
+                }
             },
         ],
         "language": {

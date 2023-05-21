@@ -21,8 +21,10 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/receiving', [ReceivingControlller::class, 'indexReceiving']);
+    Route::put('/receiving/{id}', [ReceivingControlller::class, 'updateDataReceiving']);
     Route::get('/receiving/create', [ReceivingControlller::class, 'createReceiving']);
     Route::get('/receiving/data', [ReceivingControlller::class, 'getDataReceiving']);
+    Route::get('/receiving/{id}/edit', [ReceivingControlller::class, 'editDataReceiving']);
     Route::post('/receiving', [ReceivingControlller::class, 'storeReceiving']);
     Route::get('/receiving-success', [ReceivingControlller::class, 'successReceiving']);
     Route::get('/receiving/village/{id}', [ReceivingControlller::class, 'getVillage']);
