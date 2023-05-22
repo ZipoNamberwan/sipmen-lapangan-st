@@ -16,4 +16,8 @@ class Village extends Model
     {
         return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
     }
+    public function sls()
+    {
+        return $this->hasMany(Sls::class);
+    }
 }

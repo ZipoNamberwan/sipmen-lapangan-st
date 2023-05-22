@@ -72,13 +72,13 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="/info">
+                            <a class="nav-link" href="/batching">
                                 <i class="ni ni-send text-info"></i>
                                 <span class="nav-link-text">Pengiriman Dokumen</span>
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
+                    <!-- <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="#navbar1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar1">
                                 <i class="ni ni-app text-orange"></i>
@@ -113,7 +113,7 @@
                                 </ul>
                             </div>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
         <!-- Page content -->
         <div class="main-content" id="panel">
             <!-- Navigation bar -->
-            <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+            <nav class="navbar navbar-top navbar-expand navbar-dark bg-success border-bottom">
                 <div class="container-fluid">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Search form -->

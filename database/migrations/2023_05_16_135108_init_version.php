@@ -55,9 +55,10 @@ return new class extends Migration
             $table->id()->autoincrement();
             $table->foreignId('box_id')->constrained('box');
             $table->date('date');
-            $table->string('from')->nullable();
+            $table->string('receiver')->nullable();
             $table->string('note')->nullable();
-            $table->foreignId('subdistrict_id')->constrained('subdistrict')->unique();
+            $table->foreignId('receiving_id')->constrained('receiving')->unique();
+            $table->foreignId('user_id')->constrained('users');
         });
     }
 

@@ -10,7 +10,7 @@
 @endsection
 
 @section('container')
-<div class="header bg-primary pb-6">
+<div class="header bg-success pb-6">
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
@@ -18,7 +18,7 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="/receiving">Penerimaan Dokumen dari Petugas</a></li>
+                            <li class="breadcrumb-item"><a href="/receiving">Penerimaan Dokumen</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                         </ol>
                     </nav>
@@ -36,7 +36,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Penerimaan Dokumen dari Petugas</h3>
+                        <h3 class="mb-0">Tambah Penerimaan Dokumen</h3>
                     </div>
                     <!-- Card body -->
                     <div class="card-body">

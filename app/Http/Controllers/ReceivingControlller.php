@@ -96,6 +96,10 @@ class ReceivingControlller extends Controller
     {
         return view('success-add-receiving');
     }
+    public function downloadReceiving()
+    {
+        
+    }
     public function getDataReceiving(Request $request)
     {
         $recordsTotal = Receiving::where(['user_id' => Auth::user()->id])->count();
