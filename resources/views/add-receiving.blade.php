@@ -105,7 +105,7 @@
                             <div class="row">
                                 <div class="col-md-4 mt-3">
                                     <label class="custom-toggle">
-                                        <input type="checkbox" name="map">
+                                        <input type="checkbox" name="map" @if(@old('map')=='on' ) checked @endif>
                                         <span class="custom-toggle-slider rounded-circle" data-label-off="Tidak" data-label-on="Ya"></span>
                                     </label>
                                 </div>
@@ -118,7 +118,7 @@
                             <div class="row">
                                 <div class="col-md-4 mt-3">
                                     <label class="custom-toggle">
-                                        <input type="checkbox" name="l1">
+                                        <input type="checkbox" name="l1" @if(@old('l1')=='on' ) checked @endif>
                                         <span class="custom-toggle-slider rounded-circle" data-label-off="Tidak" data-label-on="Ya"></span>
                                     </label>
                                 </div>

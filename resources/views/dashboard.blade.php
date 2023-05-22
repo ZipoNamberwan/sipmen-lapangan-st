@@ -92,7 +92,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{{url('/receiving')}}" class="btn btn-primary btn-sm btn-round btn-icon mb-2 mt-3" data-toggle="tooltip" data-original-title="Kirim Dokumen">
+                    <a href="{{url('/receiving')}}" class="btn btn-primary btn-sm btn-round btn-icon mb-2 mt-3" data-toggle="tooltip" data-original-title="Monitoring">
                         <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
                         <span class="btn-inner--text">Monitoring</span>
                     </a>

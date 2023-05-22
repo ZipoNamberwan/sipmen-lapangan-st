@@ -42,7 +42,7 @@
                             <p class="card-text mb-0"><small>&#8226; Dalam tampilan HP, tabel bisa di scroll ke kanan-kiri</small></p>
                         </div>
                         <div class="col-md-3 text-right">
-                            <a href="{{url('/receiving/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Terima Dokumen">
+                            <a href="{{url('/receiving/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Kirim Dokumen">
                                 <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
                                 <span class="btn-inner--text">Kirim Dokumen</span>
                             </a>
