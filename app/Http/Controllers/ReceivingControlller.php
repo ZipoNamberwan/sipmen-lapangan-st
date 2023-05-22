@@ -45,7 +45,7 @@ class ReceivingControlller extends Controller
             'sender' => $request->sender
         ]);
         $receiving->update($data);
-        return redirect('/receiving');
+        return redirect('/receiving')->with('success-edit', 'Penerimaan dokumen ' . $receiving->sls->fullname() . ' telah diubah');
     }
     public function getVillage($id)
     {
@@ -53,21 +53,28 @@ class ReceivingControlller extends Controller
     }
     public function getSls($id)
     {
-        return json_encode(Sls::where('village_id', $id)->get());
+        $sls = Sls::where('village_id', $id)->get();
+        $slsArray = [];
+        foreach ($sls as $s) {
+            if (count($s->receivings) == 0) {
+                $slsArray[] = $s;
+            }
+        }
+        return json_encode($slsArray);
     }
     public function storeReceiving(Request $request)
     {
         $this->validate($request, [
             'subdistrict' => 'required',
             'village' => 'required',
-            'sls' => 'required',
+            'sls' => 'required|unique:receiving,sls_id',
             'date' => 'required',
             'l2' => 'required',
             'sender' => 'required',
         ]);
 
-        $idsls = SLS::find($request->sls);
-        if ($idsls->village->subdistrict->user->id != Auth::user()->id) {
+        $sls = SLS::find($request->sls);
+        if ($sls->village->subdistrict->user->id != Auth::user()->id) {
             abort(403);
         }
 
@@ -82,7 +89,7 @@ class ReceivingControlller extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        return redirect('/receiving-success');
+        return redirect('/receiving')->with('success-create', $sls->fullname());
     }
 
     public function successReceiving()
@@ -93,7 +100,7 @@ class ReceivingControlller extends Controller
     {
         $recordsTotal = Receiving::where(['user_id' => Auth::user()->id])->count();
 
-        $orderColumn = 'fate';
+        $orderColumn = 'date';
         $orderDir = 'desc';
         if ($request->order != null) {
             if ($request->order[0]['dir'] == 'asc') {
@@ -101,12 +108,18 @@ class ReceivingControlller extends Controller
             } else {
                 $orderDir = 'desc';
             }
-            if ($request->order[0]['column'] == '2') {
+            if ($request->order[0]['column'] == '0' || $request->order[0]['column'] == '1' || $request->order[0]['column'] == '2') {
                 $orderColumn = 'sls_id';
             } else if ($request->order[0]['column'] == '3') {
-                $orderColumn = 'sls_id';
+                $orderColumn = 'map';
             } else if ($request->order[0]['column'] == '4') {
-                $orderColumn = 'sls_id';
+                $orderColumn = 'l1';
+            } else if ($request->order[0]['column'] == '5') {
+                $orderColumn = 'l2';
+            } else if ($request->order[0]['column'] == '6') {
+                $orderColumn = 'date';
+            } else if ($request->order[0]['column'] == '7') {
+                $orderColumn = 'sender';
             }
         }
         $searchkeyword = $request->search['value'];
@@ -155,6 +168,7 @@ class ReceivingControlller extends Controller
             $data["village_code"] = $s->sls->village->code;
             $data["sls"] = $s->sls->name;
             $data["sls_code"] = $s->sls->code;
+            $data["sls_long_code"] = $s->sls->long_code;
             $slsArray[] = $data;
             $i++;
         }

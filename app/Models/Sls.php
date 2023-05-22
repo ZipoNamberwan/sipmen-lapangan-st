@@ -25,4 +25,8 @@ class Sls extends Model
     {
         return $this->subdistrict->name . ", " . $this->village->name . ", " . $this->name;
     }
+    public function receivings()
+    {
+        return $this->hasMany(Receiving::class);
+    }
 }

@@ -26,6 +26,44 @@
 <!-- Page content -->
 
 <div class="container-fluid mt--6">
+    @if (session('success-create'))
+    <div class="card my-3">
+        <div class="card-body text-center">
+            <i class="fa fa-check-circle fa-10x text-success mb-4"></i>
+            <h3 class="card-title">Sukses</h3>
+            <p class="card-text mb-1">Penerimaan dokumen berikut sudah direkam:</p>
+            <h3>{{ session('success-create') }}</h3>
+            <a href="{{url('/receiving/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Absensi">
+                <span class="btn-inner--icon"><i class="fas fa-plus-circle"></i></span>
+                <span class="btn-inner--text">Terima Dokumen Lagi</span>
+            </a>
+            <a href="{{url('/receiving/monitoring')}}" class="btn btn-outline-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Absensi">
+                <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
+                <span class="btn-inner--text">Monitoring</span>
+            </a>
+        </div>
+    </div>
+    @endif
+
+    @if (session('success-edit'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <span class="alert-icon"><i class="fas fa-check-circle"></i></span>
+        <span class="alert-text"><strong>Sukses! </strong> {{ session('success-edit') }}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    @endif
+
+    @if (session('success-delete'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span class="alert-icon"><i class="fas fa-check-circle"></i></span>
+        <span class="alert-text"><strong>Gagal! </strong>{{ session('success-delete') }}</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    @endif
     <!-- Table -->
     <div class="row">
         <div class="col">
@@ -33,10 +71,14 @@
                 <!-- Card header -->
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-9 mb-3">
                             <h3 class="card-title mb-2">Daftar Penerimaan Dokumen</h3>
-                            <p class="card-text mb-0"><small>Berikut ini adalah daftar dokumen yang sudah diterima oleh Koseka</small></p>
-                            <p class="card-text mb-0"><small>Gunakan kotak Search untuk melakukan pencarian </small></p>
+                            <p class="card-text mb-0"><small>Tabel berikut menunjukkan daftar dokumen yang sudah diterima oleh Koseka</small></p>
+                            <p class="card-text mb-0"><small>&#8226; Gunakan kotak Search untuk melakukan pencarian </small></p>
+                            <p class="card-text mb-0"><small>&#8226; Klik nama kolom untuk melakukan pengurutan </small></p>
+                            <p class="card-text mb-0"><small>&#8226; Gunakan tombol <i class="fas fa-edit"></i> untuk mengubah penerimaan dokumen</small></p>
+                            <p class="card-text mb-0"><small>&#8226; Gunakan tombol <i class="fas fa-trash"></i> untuk membatalkan/menghapus penerimaan dokumen</small></p>
+                            <p class="card-text mb-0"><small>&#8226; Dalam tampilan HP, tabel bisa di scroll ke kanan-kiri</small></p>
                         </div>
                         <div class="col-md-3 text-right">
                             <a href="{{url('/receiving/create')}}" class="btn btn-primary btn-round btn-icon mb-2" data-toggle="tooltip" data-original-title="Absensi">
@@ -96,21 +138,7 @@
             "url": '/receiving/data',
             "type": 'GET'
         },
-        "columns": [
-            // {
-            //     "responsivePriority": 1,
-            //     "width": "15%",
-            //     "data": "sls_name",
-            //     "orderable": false,
-            //     "render": function(data, type, row) {
-            //         if (type === 'display') {
-            //             return '<p class="mb-0"><span class="badge badge-primary">' + row.sls_id + '</span></p>' +
-            //                 '<p class="mb-0"><span class="badge badge-success">' + data + '</span></p>';
-            //         }
-            //         return data;
-            //     }
-            // },
-            {
+        "columns": [{
                 "responsivePriority": 2,
                 "width": "5%",
                 "data": "subdistrict_code",
@@ -208,7 +236,8 @@
                     return "<a href=\"/receiving/" + data + "/edit\" class=\"btn btn-info btn-icon btn-sm\" data-toggle=\"tooltip\" data-original-title=\"Tambah SLS\">" +
                         "<span class=\"btn-inner--icon\"><i class=\"fas fa-edit\"></i></span>" +
                         // "<span class=\"btn-inner--text\">Selesai</span>" +
-                        "</a>" + "<form class=\"d-inline\" id=\"formdelete" + data + "\" name=\"formdelete" + data + "\" onsubmit=\"deletesls('" + data + "','[" + row.sls_fullcode + "] " + row.sls_fullname + "')\" method=\"POST\" action=\"/entry/" + data + "\">" +
+                        "</a>" +
+                        "<form class=\"d-inline\" id=\"formdelete" + data + "\" name=\"formdelete" + data + "\" onsubmit=\"deleteReceiving('" + data + "','[" + row.sls_long_code + "] " + row.sls_name + "')\" method=\"POST\" action=\"/receiving/" + data + "\">" +
                         '@method("delete")' +
                         '@csrf' +
                         "<button class=\"btn btn-icon btn-outline-danger btn-sm\" type=\"submit\" data-toggle=\"tooltip\" data-original-title=\"Hapus Data\">" +
@@ -226,10 +255,10 @@
 </script>
 
 <script>
-    function deletesls($id, $name) {
+    function deleteReceiving($id, $name) {
         event.preventDefault();
         Swal.fire({
-            title: 'Yakin Hapus SLS Ini?',
+            title: 'Batal Terima Dokumen ini?',
             text: $name,
             icon: 'warning',
             showCancelButton: true,

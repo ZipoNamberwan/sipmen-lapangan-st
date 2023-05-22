@@ -18,7 +18,8 @@
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Penerimaan Dokumen</li>
+                            <li class="breadcrumb-item"><a href="/receiving">Penerimaan Dokumen dari Petugas</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                         </ol>
                     </nav>
                 </div>
@@ -178,12 +179,38 @@
 <script>
     $(document).ready(function() {
         $('#subdistrict').on('change', function() {
+            console.log('load village')
             loadVillage('0');
         });
         $('#village').on('change', function() {
             loadSls('0');
         });
     });
+
+
+    function loadSls(selectedsls) {
+        let id = $('#village').val();
+        $('#sls').empty();
+        $('#sls').append(`<option value="0" disabled selected>Processing...</option>`);
+        $.ajax({
+            type: 'GET',
+            url: '/receiving/sls/' + id,
+            success: function(response) {
+                var response = JSON.parse(response);
+                $('#sls').empty();
+                $('#sls').append(`<option value="0" disabled selected>Pilih SLS</option>`);
+                response.forEach(element => {
+                    if (selectedsls == String(element.id)) {
+                        $('#sls').append('<option value=\"' + element.id + '\" selected>' +
+                            '[' + element.code + '] ' + element.name + '</option>');
+                    } else {
+                        $('#sls').append('<option value=\"' + element.id + '\">' + '[' +
+                            element.code + '] ' + element.name + '</option>');
+                    }
+                });
+            }
+        });
+    }
 
     function loadVillage(selectedvillage) {
         let id = $('#subdistrict').val();
@@ -201,39 +228,19 @@
                 response.forEach(element => {
                     if (selectedvillage == String(element.id)) {
                         $('#village').append('<option value=\"' + element.id + '\" selected>' +
-                            '[' + element.code + ']' + element.name + '</option>');
+                            '[' + element.code + '] ' + element.name + '</option>');
                     } else {
                         $('#village').append('<option value=\"' + element.id + '\">' + '[' +
                             element.code + '] ' + element.name + '</option>');
                     }
                 });
+
+                @if(@old('sls') != null) loadSls('{{@old("sls")}}') @endif
             }
         });
     }
 
-    function loadSls(selectedsls) {
-        let id = $('#village').val();
-        $('#sls').empty();
-        $('#sls').append(`<option value="0" disabled selected>Processing...</option>`);
-        $.ajax({
-            type: 'GET',
-            url: '/receiving/sls/' + id,
-            success: function(response) {
-                var response = JSON.parse(response);
-                $('#sls').empty();
-                $('#sls').append(`<option value="0" disabled selected>Pilih SLS</option>`);
-                response.forEach(element => {
-                    if (selectedsls == String(element.id)) {
-                        $('#sls').append('<option value=\"' + element.id + '\" selected>' +
-                            '[' + element.code + ']' + element.name + '</option>');
-                    } else {
-                        $('#sls').append('<option value=\"' + element.id + '\">' + '[' +
-                            element.code + '] ' + element.name + '</option>');
-                    }
-                });
-            }
-        });
-    }
+    @if(@old('village') != null) loadVillage('{{@old("village")}}') @endif
 </script>
 
 <script>
