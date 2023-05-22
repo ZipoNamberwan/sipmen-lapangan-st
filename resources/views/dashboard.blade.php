@@ -75,6 +75,30 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-1 mt-2">Monitoring Per SLS</h5>
+                            <div class="d-flex align-items-center">
+                                <span class="h5 font-weight-light mb-0">Lihat Monitoring Penerimaan dan Pengiriman Dokumen</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{url('/receiving')}}" class="btn btn-primary btn-sm btn-round btn-icon mb-2 mt-3" data-toggle="tooltip" data-original-title="Kirim Dokumen">
+                        <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
+                        <span class="btn-inner--text">Monitoring</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
